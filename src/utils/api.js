@@ -1,6 +1,24 @@
-import { _getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer, _saveUser } from './_DATA'
+import { _getUsers, _getQuestions, _saveQuestion, _saveQuestionAnswer } from './_DATA'
 
-export function getInitialData() {
+//this set of functions was created in order to simulate something closer to a real world scenario, where questions data wouldn't be accessible until after the login.
+export function getUsers() {
+  return Promise.all([
+    _getUsers(),
+  ]).then(([users]) => ({
+    users
+  }))
+}
+
+export function getQuestions() {
+  return Promise.all([
+    _getQuestions(),
+  ]).then(([questions]) => ({
+    questions
+  }))
+}
+
+
+export function getAllData() {
   return Promise.all([
     _getUsers(),
     _getQuestions()

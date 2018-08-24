@@ -1,30 +1,40 @@
 //importing the initial data from our api.
-import { getInitialData } from '../utils/api'
+import { getUsers, getQuestions, getAllData } from '../utils/api'
 
 import { receiveUsers } from '../actions/users'
-import { recieveQuestions } from '../actions/questions'
+import { receiveQuestions } from '../actions/questions'
 
-import { setAuthenticatedUser } from '../actions/authedUser'
+//we get all users with this function
+export function handleUserList() {
+	return (dispatch) => {
+    	return getUsers()
+      		.then(({users}) => {
+          		dispatch(receiveUsers(users))
+        })
+    }
+}
 
-
-const testing = true
-const AUTHENTICATED_USER_ID = 'sarahedo'
+//we get all questions with this function
+export function handleQuestionsList() {
+	return (dispatch) => {
+    	return getQuestions()
+      		//this promise wil give us objects with users.
+      		.then(({questions}) => {
+          		dispatch(receiveQuestions(questions))
+        })
+    }
+}
 
 
 //we are exporting a function using the Redux Thunk function because we need to get data asyncronously.
-export function handleInitialData() {
+export function handleAllData() {
 	return (dispatch) => {
-    	return getInitialData()
+    	return getAllData()
       		//this promise wil give us objects with users and questions properties and then add them to our store.
       		.then(({users, questions}) => {
         		//these dispatch calls still need reducers.
           		dispatch(receiveUsers(users))
-          		dispatch(recieveQuestions(questions))
-          
-                if(testing) {
-                  dispatch(setAuthenticatedUser(AUTHENTICATED_USER_ID))
-                }
-          
+          		dispatch(receiveQuestions(questions))
         })
     }
 }

@@ -15,8 +15,8 @@ const store = createStore(reducer, middleware)
 
 //our app can now be wrapped in a provider, allowing us to pass the store to it in a manageable way
 ReactDOM.render(<Provider store={store}>
-					<App />
-				</Provider>, 
+                  <App />
+                 </Provider>, 
 document.getElementById('root')
 )
 
