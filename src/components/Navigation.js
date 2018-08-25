@@ -1,4 +1,13 @@
+//Bootstrap 4 implementation of Navbar source: https://github.com/pardel/react-bootstrap4-part1 - THANK YOU PAUL!!!!!!
+
 import React from 'react';
+
+import {
+  withRouter,
+  Link,
+} from 'react-router-dom'
+
+import AuthButton from './AuthButton'
 
 const NavItem = props => {
   const pageURI = window.location.pathname+window.location.search
@@ -6,10 +15,10 @@ const NavItem = props => {
   const aClassName = props.disabled ? "nav-link disabled" : "nav-link"
   return (
     <li className={liClassName}>
-      <a href={props.path} className={aClassName}>
+      <Link to={props.path} className={aClassName}>
         {props.name}
         {(props.path === pageURI) ? (<span className="sr-only">(current)</span>) : ''}
-      </a>
+      </Link>
     </li>
   );
 }
@@ -31,11 +40,11 @@ class NavDropdown extends React.Component {
     const classDropdownMenu = 'dropdown-menu' + (this.state.isToggleOn ? ' show' : '')
     return (
       <li className="nav-item dropdown">
-        <a className="nav-link dropdown-toggle" href="/" id="navbarDropdown" role="button" data-toggle="dropdown"
+        <Link className="nav-link dropdown-toggle" to="/" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false"
           onClick={(e) => {this.showDropdown(e)}}>
           {this.props.name}
-        </a>
+        </Link>
         <div className={classDropdownMenu} aria-labelledby="navbarDropdown">
           {this.props.children}
         </div>
@@ -44,12 +53,11 @@ class NavDropdown extends React.Component {
   }
 }
 
-
 class Navigation extends React.Component {
   render() {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <a className="navbar-brand" href="/">Navbar</a>
+        <Link className="navbar-brand" to="/">WOULD YOU RATHER?</Link>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -58,21 +66,27 @@ class Navigation extends React.Component {
           <ul className="navbar-nav mr-auto">
             
             <NavItem path="/" name="Home" />
-            <NavItem path="/page2" name="Page2" />
-            <NavItem path="/page3" name="Disabled" disabled="true" />
+            <NavItem path="/leaderboard" name="Leaderboard" />
+            <NavItem path="/ask-a-question" name="Ask a Question" />
             
+      {/*
               <NavDropdown name="Dropdown">
                 <a className="dropdown-item" href="/">Action</a>
                 <a className="dropdown-item" href="/">Another action</a>
                 <div className="dropdown-divider"></div>
                 <a className="dropdown-item" href="/">Something else here</a>
               </NavDropdown>
+              */
+      }
             
           </ul>
-          <form className="form-inline my-2 my-lg-0">
+{/*
+         <form className="form-inline my-2 my-lg-0">
             <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
             <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
           </form>
+ */}
+
         </div>
       </nav>
     )
@@ -80,3 +94,5 @@ class Navigation extends React.Component {
 }
 
 export default Navigation;
+
+

@@ -19,27 +19,32 @@ import LoginWidget from './LoginWidget'
 class App extends Component {
 
   render() {
-
     return (
-      <div className="App">
-        <Router>
-          <div>
-            <Switch>
-              <Route exact path="/" render={() => (
-               <div>
-                {this.props.isLoggedIn === false
-                 ? <LoginWidget />
-                 : <PrivatePage viewtorender="homepage" />
-                }
-               </div>
-               )} />
-              <PrivateRoute path="/leaderboard" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="leaderboardpage" />)} />
-              <PrivateRoute path="/ask-a-question" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="askaquestionpage" />)}  />
-              <Route render={() => <h1>Page not found</h1>} />
-            </Switch>
-          </div>
-        </Router>
+     <div className="container-fluid">
+      <div className="row">
+       <div className="col-12">
+          <div className="App">
+          <Router>
+            <div>
+              <Switch>
+                <Route exact path="/" render={() => (
+                 <div>
+                  {this.props.isLoggedIn === false
+                   ? <LoginWidget />
+                   : <PrivatePage viewtorender="homepage" />
+                  }
+                 </div>
+                 )} />
+                <PrivateRoute path="/leaderboard" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="leaderboardpage" />)} />
+                <PrivateRoute path="/ask-a-question" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="askaquestionpage" />)}  />
+                <Route render={() => <h1>Page not found</h1>} />
+              </Switch>
+            </div>
+          </Router>
+        </div>
+       </div>
       </div>
+     </div>
     )
   }
 }
