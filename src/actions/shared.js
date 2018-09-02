@@ -1,8 +1,8 @@
 //importing the initial data from our api.
-import { getUsers, getQuestions, getAllData } from '../utils/api'
+import { getUsers, getQuestions, getAllData, saveQuestionAnswer } from '../utils/api'
 
 import { receiveUsers } from '../actions/users'
-import { receiveQuestions } from '../actions/questions'
+import { receiveQuestions, answerQuestion } from '../actions/questions'
 
 //we get all users with this function
 export function handleUserList() {
@@ -25,7 +25,6 @@ export function handleQuestionsList() {
     }
 }
 
-
 //we are exporting a function using the Redux Thunk function because we need to get data asyncronously.
 export function handleAllData() {
 	return (dispatch) => {
@@ -36,5 +35,24 @@ export function handleAllData() {
           		dispatch(receiveUsers(users))
           		dispatch(receiveQuestions(questions))
         })
+    }
+}
+
+
+export function handleAnswerSelection(qid, answer) {
+     return (dispatch, getState) => {
+       const { authedUser } = getState()
+       //dispatch to api
+       dispatch(answerQuestion({
+            authedUser,
+            qid,
+            answer
+       }))
+       //then return state
+       return saveQuestionAnswer({
+        authedUser,
+        qid,
+        answer
+      })
     }
 }

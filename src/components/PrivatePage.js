@@ -2,11 +2,10 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 
-import { handleAllData } from '../actions/shared'
-import { unsetAuthenticatedUser } from '../actions/authedUser'
-
 import NavigationSection from './NavigationSection'
+import LoginWidget from './LoginWidget'
 import HomePage from './HomePage'
+import QuestionDetails from './QuestionDetails'
 import LeaderboardPage from './LeaderboardPage'
 import AskaQuestionPage from './AskaQuestionPage'
 
@@ -16,66 +15,53 @@ class PrivatePage extends Component {
     components = {
         homepage: HomePage,
         leaderboardpage: LeaderboardPage,
-        askaquestionpage: AskaQuestionPage
+        askaquestionpage: AskaQuestionPage,
+        questiondetails: QuestionDetails
     }
     
      state = {
         loading: true
      }
 
-     onSignOutButtonClick = () => {
-         this.props.signUserOut()
+     componentDidMount() {
+       this.setState({ loading: false })
      }
 
-      componentDidMount() {
-          this.mounted = true
-          this.props.getAllData().then(response => {
-            if(this.mounted) { 
-               this.setState({ loading: false })
-            }
-          })
-      }
-
-      componentWillUnmount(){
-        this.mounted = false
-      }
   render() {
     const ViewToRender = this.components[this.props.viewtorender]
     const { loading } = this.state
-    const { users, questions, authedUser } = this.props
     if(loading) {
       return 'LOADING'
     }
     return (
       <div className="private-page">
-         <NavigationSection />
-         <div className="app-views">
-             <ViewToRender users={users} questions={questions}  />
-         </div>
-      </div>
+        <NavigationSection />
+        {this.props.isLoggedIn === false
+          ? <LoginWidget />
+          : (
+             <div className="app-views">
+              <div className="container">
+               <div className="row">
+                <div className="col-12">
+                 <ViewToRender  />
+                </div>
+               </div>
+              </div>
+             </div>
+            )
+          }
+      </div>      
+      
+      
+      
+      
     )
   }
 }
-
-function mapStateToProps({ users, questions, authedUser }, { id }) {
-
+function mapStateToProps({ authedUser }) {
   return {
-     users: users
-        ? users
-        : {},
-    questions: questions
-        ? questions
-        : {},
-    authedUser: authedUser
+    isLoggedIn: authedUser !== null && typeof authedUser === 'string'
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    getAllData: () => dispatch(handleAllData()),
-    signUserOut: () => {dispatch(unsetAuthenticatedUser())}
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(PrivatePage)
+export default connect(mapStateToProps)(PrivatePage)

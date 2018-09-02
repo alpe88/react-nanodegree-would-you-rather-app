@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 
- class AskaQuestionPage extends Component {
+class AskaQuestionPage extends Component {
 
   render() {
     
@@ -12,4 +12,4 @@ import React, { Component } from 'react'
   }
 }
 
- export default AskaQuestionPage
+export default AskaQuestionPage

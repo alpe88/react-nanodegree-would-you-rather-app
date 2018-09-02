@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './components/App';
+
 //import registerServiceWorker from './registerServiceWorker';
 
 //these imports allow us to reap the benefits of the redux store and its' various aspects (like provider and the reducers we built)

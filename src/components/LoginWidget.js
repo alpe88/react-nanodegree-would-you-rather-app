@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Link, Redirect } from 'react-router-dom'
+import { Link, Redirect, withRouter } from 'react-router-dom'
 
-//these imports allow us to connect our app to the redux store and get initial data, but we also need the connect() invocation in the export at the bottom of our app.
 import { connect } from 'react-redux'
 
 import { handleUserList } from '../actions/shared'
@@ -26,8 +25,6 @@ import { setAuthenticatedUser } from '../actions/authedUser'
      this.setState({
           userSelected: event.target.value
       })
-     //console.log('user passed to getuser: ', event.target.value)
-     //console.log('user in state: ', this.state.userSelected)
   }
 
   onSignInClick = () => {
@@ -42,9 +39,10 @@ import { setAuthenticatedUser } from '../actions/authedUser'
   }
 
   render() {
-    const { from } = this.props.location || { from: { pathname: '/' } }
+    const { from } = this.props.location
     const { users } = this.props
     const { loading, redirectToReferrer } = this.state
+console.log(redirectToReferrer)
 
     if(loading) {
       return 'LOADING'
@@ -102,4 +100,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 
- export default connect(mapStateToProps, mapDispatchToProps)(LoginWidget)
+ export default withRouter(connect(mapStateToProps, mapDispatchToProps)(LoginWidget))

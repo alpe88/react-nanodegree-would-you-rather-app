@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
-  withRouter,
-  Link,
+  Link
 } from 'react-router-dom'
 
 import UserProfile from './UserProfile'
@@ -9,7 +8,7 @@ import UserProfile from './UserProfile'
 
 const NavItem = props => {
   const pageURI = window.location.pathname+window.location.search
-  const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";
+  const liClassName = (props.path === pageURI) ? "nav-item active px-3" : "nav-item px-3";
   const aClassName = props.disabled ? "nav-link disabled" : "nav-link"
   return (
     <li className={liClassName}>
@@ -25,24 +24,18 @@ const NavItem = props => {
 class NavigationSection extends Component {
 
   render() {
-    const { user, onSignOutButtonClick } = this.props
     return (
       <div className="navigation-section">
-       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="/">WOULD YOU RATHER?</Link>
-        <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
+       <nav className="navbar navbar-toggleable-xl navbar-light bg-light">
+        <Link className="navbar-brand pr-1 border-right" to="/">WOULD YOU RATHER?</Link>
 
-        <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mr-auto">
-            
             <NavItem path="/" name="Home" />
             <NavItem path="/leaderboard" name="Leaderboard" />
-            <NavItem path="/ask-a-question" name="Ask a Question" />
+            <NavItem path="/add" name="Ask a Question" />
           </ul>      
-        </div>
-      <UserProfile currentUser={user} onSignOutButtonClick={onSignOutButtonClick} />
+
+      <UserProfile />
       </nav>      
 
     </div>

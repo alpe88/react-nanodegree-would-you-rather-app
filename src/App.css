@@ -29,7 +29,7 @@
 
 
 /* App loader css */
-.App-loader:empty {
+.App-loader {
   position: absolute;
   top: calc(50% - 4em);
   left: calc(50% - 4em);
@@ -48,4 +48,16 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+.avatar {
+   width: 48px;
+}
+
+.avatar-big {
+   width: 100px;
+}
+
+.navbar-nav {
+   flex-direction: row;
 }

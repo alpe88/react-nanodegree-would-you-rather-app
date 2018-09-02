@@ -1,39 +1,36 @@
 import React, { Component } from 'react';
 
-
+import QuestionsList from './QuestionsList'
 
 class HomePage extends Component {
-  filterQuestions = (questions) => {
-      return Object.keys(questions)
-      .sort((a,b) => questions[b].timestamp - questions[a].timestamp)
+  state = {
+    questionsToDisplay: 'unanswered'
+  }
+  setQuestionType = (questionType) => {
+    setTimeout(() => {this.setState({ questionsToDisplay: questionType })}, 200)
   }
   render() {
-    const { users, questions, authedUser } = this.props
+    const { questionsToDisplay } = this.state
+
+    const clickableElementStyle = {
+      cursor: 'pointer'
+    }
     return (
       <div className="home-page">
-       {console.log('users: ', users)}
-       {console.log('questions: ', questions)}
-       {console.log('authedUser', authedUser)}
-
-        <div className="container-fluid">
-          <div className="row">
-             <div className="col-12">
- 
-               <div className="">
-{console.log('filtered questions: ', this.filterQuestions(questions))}
-
-               </div>
-
-             </div>
-          </div>
+       <div className="row">
+         <div className="col-6">
+          <p style={ clickableElementStyle } onClick={() => this.setQuestionType('unanswered')} className="question-type-heading text-center">UNANSWERED</p>
+         </div>
+         <div className="col-6">
+          <p style={ clickableElementStyle } onClick={() => this.setQuestionType('answered')} className="question-type-heading text-center">ANSWERED</p>
+         </div>
+         <div className="col-12">
+          <QuestionsList questionsType={questionsToDisplay} />
+         </div>
         </div>
-
-
-
-
       </div>
     )
   }
 }
 
-export default HomePage;
+export default HomePage
