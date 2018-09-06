@@ -42,7 +42,6 @@ import { setAuthenticatedUser } from '../actions/authedUser'
     const { from } = this.props.location
     const { users } = this.props
     const { loading, redirectToReferrer } = this.state
-console.log(redirectToReferrer)
 
     if(loading) {
       return 'LOADING'

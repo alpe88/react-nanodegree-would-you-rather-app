@@ -31,7 +31,7 @@ class Question extends Component {
             <div className="row">
               <div className="col-md-4">
                   <img src={avatarURL} alt={`Avatar of ${name}`} className="avatar-big" />
-                </div>
+                </div>{console.log(question.optionOne.votes)}
                 <div className="col-md-4">
                   <div className="card-block">
                     <h4 className="card-title">{name} asked would you rather:</h4>
@@ -50,9 +50,9 @@ class Question extends Component {
                 </div>
                 <div className="col-md-4">
                  {question.optionOne.votes.indexOf(authedUser) > -1 || question.optionTwo.votes.indexOf(authedUser) > -1 ? (
-                  <Link to={`/questions/question:${id}`} className="btn btn-primary">SEE RESULTS</Link>
+                  <Link to={`/questions/question_id:${id}`} className="btn btn-primary">SEE RESULTS</Link>
                   ) : (
-                   <Link to={`/questions/question:${id}`} className="btn btn-primary">ANSWER QUESTION</Link>
+                   <Link to={`/questions/question_id:${id}`} className="btn btn-primary">ANSWER QUESTION</Link>
                   )}
 
                 </div>

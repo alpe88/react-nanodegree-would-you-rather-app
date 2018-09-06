@@ -137,7 +137,7 @@ export function _getQuestions () {
 
 function formatQuestion({ optionOneText, optionTwoText, author }) {
   return {
-     id: generateUID(),
+    id: generateUID(),
     timestamp: Date.now(),
     author,
     optionOne: {
@@ -175,7 +175,7 @@ export function _saveQuestion (question) {
   })
 }
 
-export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
+export function _saveQuestionAnswer ({ authedUser, id, answer }) {
   return new Promise((res, rej) => {
     setTimeout(() => {
       users = {
@@ -184,18 +184,18 @@ export function _saveQuestionAnswer ({ authedUser, qid, answer }) {
           ...users[authedUser],
           answers: {
             ...users[authedUser].answers,
-            [qid]: answer
+            [id]: answer
           }
         }
       }
 
       questions = {
         ...questions,
-        [qid]: {
-          ...questions[qid],
+        [id]: {
+          ...questions[id],
           [answer]: {
-            ...questions[qid][answer],
-            votes: questions[qid][answer].votes.concat([authedUser])
+            ...questions[id][answer],
+            votes: questions[id][answer].votes.concat([authedUser])
           }
         }
       }

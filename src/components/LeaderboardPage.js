@@ -2,10 +2,21 @@ import React, { Component } from 'react'
 
 import { connect } from 'react-redux'
 
+import { handleAllData } from '../actions/shared'
+
 import UserPanel from './UserPanel'
 
 class LeaderboardPage extends Component {
-  
+  state = {
+    loading: true,
+  }
+
+  componentDidMount() {
+    this.props.loadAllData().then(response => {
+       this.setState({ loading: false })
+    })
+  }
+
   countUserQuestions = id => {
     return this.props.users[id].questions.length
   }
@@ -22,6 +33,9 @@ class LeaderboardPage extends Component {
     const { users } = this.props
     const userIds = Object.keys(users).sort((a,b) => this.totalUserScore(b) - this.totalUserScore(a))
 
+    if(this.state.loading) {
+      return 'LOADING'
+    }
     return (
       <div className="leaderboard">
       {userIds.map((id, rank) => (
@@ -34,6 +48,7 @@ class LeaderboardPage extends Component {
     )
   }
 }
+
 function mapStateToProps({ users, questions }) {
   
   return {
@@ -46,4 +61,11 @@ function mapStateToProps({ users, questions }) {
   }
 }
 
-export default connect(mapStateToProps)(LeaderboardPage)
+function mapDispatchToProps(dispatch) {
+  return {
+    loadAllData: () => dispatch(handleAllData())
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(LeaderboardPage)

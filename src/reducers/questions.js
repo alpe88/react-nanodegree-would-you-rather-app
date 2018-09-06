@@ -1,4 +1,4 @@
-import { RECEIVE_QUESTIONS, ANSWER_QUESTION } from '../actions/questions'
+import { RECEIVE_QUESTIONS, ADD_QUESTION, ANSWER_QUESTION } from '../actions/questions'
 
 
 export default function questions (state = {}, action) {
@@ -9,16 +9,21 @@ export default function questions (state = {}, action) {
         	...state,
             ...action.questions
         }
+     case ADD_QUESTION:
+      return {
+        ...state,
+        [action.question.id]: action.question,
+      }
       case ANSWER_QUESTION :
         return {
           ...state,
-          [action.qid]: {
-            ...state[action.qid],
+          [action.id]: {
+            ...state[action.id],
             [action.answer]: {
-              ...state[action.qid][action.answer],
-              votes: state[action.qid][action.answer].votes.concat([action.authedUser]),
-            },
-          },
+              ...state[action.id][action.answer],
+              votes: state[action.id][action.answer].votes.concat([action.authedUser])
+            }
+          }
         }
         default :
         //always return same state that was received when nothing was received

@@ -2,14 +2,27 @@ import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-import { handleAnswerSelection } from '../actions/shared'
+import { handleAnswerQuestion } from '../actions/questions'
 
 class QuestionDetails extends Component {
-     
-    onAnswerOptionClick = (qid, answer) => {
-      console.log('id ',qid)
-      console.log('answerOption ',answer)
-      this.props.saveAnswer(qid, answer)
+     state = { 
+       isActiveOne: false,
+       isActiveTwo: false,
+       loading: true
+     }
+   componentDidMount() {
+      this.setState({ loading: false })
+    }
+    onAnswerOptionClick = (authedUser, id, answer) => {
+      let optionChosen = ''
+      if(answer === 'optionOne') { 
+        optionChosen = 'optionOne'
+        this.setState({ isActiveOne: true })
+      } else if (answer === 'optionTwo') {
+         optionChosen = 'optionTwo'
+         this.setState({ isActiveTwo: true })
+      } else { alert('Please select an option.') }
+      this.props.saveAnswer(authedUser, id, optionChosen)
     }
     
     countOptionOne = (id) => {
@@ -23,15 +36,15 @@ class QuestionDetails extends Component {
     }
 
   render() {
+    if(this.state.loading) {
+      return 'LOADING'
+    }
     const { questions, users, authedUser, id } = this.props
     const qid = (id.length && id[0] === ':') ? id.slice(1) : id
     const question = questions[qid]
-    
     const user = users[question.author]
     const currentUser = users[authedUser]
-    console.log('question ',question)
-    console.log('user', user)
-console.log('currentUser', currentUser)
+
     if (question === null) {
        return <p>The questions does not exist</p>
     }
@@ -41,6 +54,9 @@ console.log('currentUser', currentUser)
 
     const addBorderStyle = {
       border: '1px solid green'
+    }
+    const removeBorderStyle = {
+      border: '0'
     }
     const clickableElementStyle = {
       cursor: 'pointer'
@@ -53,7 +69,7 @@ console.log('currentUser', currentUser)
     return (
       <div className="question-details">
       {currentUser.answers.hasOwnProperty(qid) ? (
-                <div className="question py-1">
+                <div key={qid} className="question py-1">
                   <div className="container">
                     <div className="card py-3">
                       <div className="row">
@@ -84,7 +100,7 @@ console.log('currentUser', currentUser)
                     </div>
                   </div>
       ) : (
-              <div className="question py-1">
+              <div key={qid} className="question py-1">
                 <div className="container">
                   <div className="card py-3">
                     <div className="row">
@@ -94,9 +110,14 @@ console.log('currentUser', currentUser)
                         <div className="col-md-4">
                           <div className="card-block">
                             <h4 className="card-title">{name} asked would you rather:</h4>
-                            <p onClick={() => this.onAnswerOptionClick(qid, optionOne)} style={ clickableElementStyle } className="card-text question-option-one">{optionOne.text}</p><p>OR</p>
-                            <p onClick={() => this.onAnswerOptionClick(qid, optionTwo)} style={ clickableElementStyle } className="card-text question-option-two">{optionTwo.text}</p>
-                          </div>
+                            <div style={ clickableElementStyle }>
+                              <p onClick={() => this.onAnswerOptionClick(authedUser, qid, 'optionOne')} style={ this.state.isActiveOne ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-one">{optionOne.text}</p>
+                            </div>
+                            <p>OR</p>
+                            <div style={ clickableElementStyle }>
+                              <p onClick={() => this.onAnswerOptionClick(authedUser, qid, 'optionTwo')} style={ this.state.isActiveTwo ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-two">{optionTwo.text}</p>
+                            </div>
+                         </div>
                         </div>
                         <div className="col-md-4">
 
@@ -127,7 +148,7 @@ function mapStateToProps ({ authedUser, users, questions }, ownProps) {
 }
 function mapDispatchToProps(dispatch) {
   return {
-    saveAnswer: (qid, answer) => dispatch(handleAnswerSelection(qid, answer)),
+    saveAnswer: (authedUser, id, answer) => dispatch(handleAnswerQuestion(authedUser, id, answer)),
   }
 }
 

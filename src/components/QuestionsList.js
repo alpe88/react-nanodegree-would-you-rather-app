@@ -50,7 +50,7 @@ class QuestionsList extends Component {
 }
 function mapStateToProps ({ authedUser, questions, users }) {
   const questionIds = Object.keys(questions).sort((a,b) => questions[b].timestamp - questions[a].timestamp)
-
+console.log(questions)
   const user = ( authedUser && users.hasOwnProperty(authedUser) )
     ? users[authedUser]
     : { answers: {} }
