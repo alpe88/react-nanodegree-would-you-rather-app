@@ -31,7 +31,7 @@ class Question extends Component {
             <div className="row">
               <div className="col-md-4">
                   <img src={avatarURL} alt={`Avatar of ${name}`} className="avatar-big" />
-                </div>{console.log(question.optionOne.votes)}
+                </div>
                 <div className="col-md-4">
                   <div className="card-block">
                     <h4 className="card-title">{name} asked would you rather:</h4>

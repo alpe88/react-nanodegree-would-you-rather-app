@@ -35,7 +35,7 @@ class AskaQuestionPage extends Component {
        optionTwoText: optionTwoText,
        author: authedUser
     }
-    
+
     if (optionOneText && optionTwoText) {
       this.props.addAQuestion(question)
     }
