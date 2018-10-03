@@ -23,6 +23,7 @@ class QuestionDetails extends Component {
          this.setState({ isActiveTwo: true })
       } else { alert('Please select an option.') }
       this.props.saveAnswer(authedUser, id, optionChosen)
+      this.forceUpdate()
     }
     
     countOptionOne = (id) => {
@@ -34,14 +35,16 @@ class QuestionDetails extends Component {
     countTotalVotes = (id) => {
       return this.countOptionOne(id) + this.countOptionTwo(id)
     }
+    calculatePercent = (count,total) => {
+      return count/total*100
+    }
 
   render() {
     if(this.state.loading) {
       return 'LOADING'
     }
     const { questions, users, authedUser, id } = this.props
-    const qid = (id.length && id[0] === ':') ? id.slice(1) : id
-    const question = questions[qid]
+    const question = questions[id]
     const user = users[question.author]
     const currentUser = users[authedUser]
 
@@ -53,7 +56,7 @@ class QuestionDetails extends Component {
     }
 
     const addBorderStyle = {
-      border: '1px solid green'
+      border: '1px solid green',
     }
     const removeBorderStyle = {
       border: '0'
@@ -61,46 +64,49 @@ class QuestionDetails extends Component {
     const clickableElementStyle = {
       cursor: 'pointer'
     }
+
     const {
      optionOne, optionTwo
     } = question
 
     const { name, avatarURL } = user
-    return (
-      <div className="question-details">
-      {currentUser.answers.hasOwnProperty(qid) ? (
-                <div key={qid} className="question py-1">
-                  <div className="container">
-                    <div className="card py-3">
-                      <div className="row">
-                        <div className="col-md-4">
-                            <img src={avatarURL} alt={`Avatar of ${name}`} className="avatar-big" />
-                          </div>
-                          <div className="col-md-4">
-                            <div className="card-block">
-                              <h4 className="card-title">{name} asked would you rather:</h4>
-                              {optionOne.votes.indexOf(authedUser) > -1 ? (
-                                                    <p style={ addBorderStyle } className="card-text question-option-one">{optionOne.text} with {this.countOptionOne(qid)} of {this.countTotalVotes(qid) } votes.</p>
-                                                    ) : (
-                                                    <p className="card-text question-option-one">{optionOne.text} with {this.countOptionOne(qid)} of {this.countTotalVotes(qid) } votes.</p>
-                                                    )}
-                                                    <p>OR</p>
-                              {optionTwo.votes.indexOf(authedUser) > -1 ? (
-                                                    <p style={ addBorderStyle } className="card-text question-option-two">{optionTwo.text} with {this.countOptionTwo(qid)} of {this.countTotalVotes(qid) } votes.</p>
-                                                    ) : (
-                                                    <p className="card-text question-option-one">{optionTwo.text} with {this.countOptionTwo(qid)} of {this.countTotalVotes(qid) } votes.</p>
-                                                    )}
-                            </div>
-                          </div>
-                          <div className="col-md-4">
 
-                          </div>
-                        </div>
+    return (
+      <div key={id} className="question-details">
+      {currentUser.answers.hasOwnProperty(id) ? (
+                <div className="question py-1">
+                  <div className="container">
+                     <div className="card py-3">
+        <div className="row">
+         <div className="col-md-4">
+          <img src={avatarURL} alt={`Avatar of ${name}`} className="avatar-big" />
+         </div>
+         <div className="col-md-4">
+          <div className="card-block">
+           <h4 className="card-title">{name} asked would you rather:</h4>
+            {optionOne.votes.indexOf(authedUser) > -1 ? (
+            <p style={ addBorderStyle } className="card-text question-option-one">{optionOne.text} with {this.countOptionOne(id)} of {this.countTotalVotes(id) } votes ({this.calculatePercent(this.countOptionOne(id),this.countTotalVotes(id))}%).</p>
+             ) : (
+              <p className="card-text question-option-one">{optionOne.text} with {this.countOptionOne(id)} of {this.countTotalVotes(id) } votes ({this.calculatePercent(this.countOptionOne(id),this.countTotalVotes(id))}%).</p>
+             )}
+             <p>OR</p>
+             {optionTwo.votes.indexOf(authedUser) > -1 ? (
+              <p style={ addBorderStyle } className="card-text question-option-two">{optionTwo.text} with {this.countOptionTwo(id)} of {this.countTotalVotes(id) } votes ({this.calculatePercent(this.countOptionTwo(id),this.countTotalVotes(id))}%).</p>
+               ) : (
+                <p className="card-text question-option-one">{optionTwo.text} with {this.countOptionTwo(id)} of {this.countTotalVotes(id) } votes  ({this.calculatePercent(this.countOptionTwo(id),this.countTotalVotes(id))}%).</p>
+               )}
+           </div>
+          </div>
+         <div className="col-md-4">
+
+         </div>
+       </div>
+      </div>
+      
                       </div>
                     </div>
-                  </div>
       ) : (
-              <div key={qid} className="question py-1">
+              <div className="question py-1">
                 <div className="container">
                   <div className="card py-3">
                     <div className="row">
@@ -111,11 +117,11 @@ class QuestionDetails extends Component {
                           <div className="card-block">
                             <h4 className="card-title">{name} asked would you rather:</h4>
                             <div style={ clickableElementStyle }>
-                              <p onClick={() => this.onAnswerOptionClick(authedUser, qid, 'optionOne')} style={ this.state.isActiveOne ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-one">{optionOne.text}</p>
+                              <p onClick={() => this.onAnswerOptionClick(authedUser, id, 'optionOne')} style={ this.state.isActiveOne ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-one">{optionOne.text}</p>
                             </div>
                             <p>OR</p>
                             <div style={ clickableElementStyle }>
-                              <p onClick={() => this.onAnswerOptionClick(authedUser, qid, 'optionTwo')} style={ this.state.isActiveTwo ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-two">{optionTwo.text}</p>
+                              <p onClick={() => this.onAnswerOptionClick(authedUser, id, 'optionTwo')} style={ this.state.isActiveTwo ? (addBorderStyle) : (removeBorderStyle) } className="card-text question-option-two">{optionTwo.text}</p>
                             </div>
                          </div>
                         </div>
@@ -134,7 +140,7 @@ class QuestionDetails extends Component {
 
 function mapStateToProps ({ authedUser, users, questions }, ownProps) {
   const id = ownProps.match.params.id 
-
+  const qid = (id.length && id[0] === ':') ? id.slice(1) : id
   return {
     questions: questions
        ? questions
@@ -142,7 +148,7 @@ function mapStateToProps ({ authedUser, users, questions }, ownProps) {
     users: users
        ? users
        : {},
-    id: id,
+    id: qid,
     authedUser: authedUser
   }
 }

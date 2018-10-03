@@ -50,9 +50,9 @@ class Question extends Component {
                 </div>
                 <div className="col-md-4">
                  {question.optionOne.votes.indexOf(authedUser) > -1 || question.optionTwo.votes.indexOf(authedUser) > -1 ? (
-                  <Link to={`/questions/question_id:${id}`} className="btn btn-primary">SEE RESULTS</Link>
+                  <Link to={`/questions/:${id}`} className="btn btn-primary">SEE RESULTS</Link>
                   ) : (
-                   <Link to={`/questions/question_id:${id}`} className="btn btn-primary">ANSWER QUESTION</Link>
+                   <Link to={`/questions/:${id}`} className="btn btn-primary">ANSWER QUESTION</Link>
                   )}
 
                 </div>

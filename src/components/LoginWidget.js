@@ -28,10 +28,11 @@ import { setAuthenticatedUser } from '../actions/authedUser'
   }
 
   onSignInClick = () => {
+    console.log(this.state.userSelected)
     if(this.state.userSelected !== null) {
-          this.setState(() => ({
+          this.setState({
             redirectToReferrer: true
-          }))
+          })
           this.props.signUserIn(this.state.userSelected)
     }else{
         alert('Please select a user!')

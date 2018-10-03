@@ -24,8 +24,8 @@ function addQuestion(question) {
 
 export function handleAddingAQuestion(question) {
   return (dispatch) => {
-    dispatch(addQuestion(question))
-    return saveQuestion(question).catch((e) => {
+    return saveQuestion(question).then(question => dispatch(addQuestion(question))
+    ).catch((e) => {
           console.warn('Error in handleAddQuestion: ', e)
           dispatch(addQuestion(question))
           alert('Your question was not added. Please try again.')

@@ -6,7 +6,7 @@ import '../App.css';
 import {
   BrowserRouter as Router,
   Route,
-  Switch,
+  Switch
 } from 'react-router-dom';
 
 import PrivateRoute from '../utils/routes/PrivateRoute'
@@ -23,7 +23,7 @@ class App extends Component {
                       <Route exact path="/" component={(props) => (<PrivatePage {...props} viewtorender="homepage" />)} />
                       <PrivateRoute path="/leaderboard" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="leaderboardpage" />)} />
                       <PrivateRoute path="/add" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="askaquestionpage" />)}  />
-                      <PrivateRoute exact path="/questions/question_id:id" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="questiondetails" />)}  />
+                      <PrivateRoute exact path="/questions/:id" authedUser={this.props.authedUser} component={(props) => (<PrivatePage {...props} viewtorender="questiondetails" />)}  />
                       <Route render={() => <h1>Page not found</h1>} />
                     </Switch>
                   </Fragment>
@@ -32,5 +32,6 @@ class App extends Component {
     )
   }
 }
+
 
 export default App
